@@ -21,7 +21,69 @@ const Gameboard = () => {
     board[row][column].addToken(token);
   };
 
-  return { DisplayBoard, placeToken };
+  const checkCellValue = (row, column) =>
+    board[row][column].getValue();
+
+  const checkWinner = (activePlayerToken) => {
+    // Check winner first row
+    if (
+      board[0][0].getValue() === activePlayerToken &&
+      board[0][1].getValue() === activePlayerToken &&
+      board[0][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner second row
+    if (
+      board[1][0].getValue() === activePlayerToken &&
+      board[1][1].getValue() === activePlayerToken &&
+      board[1][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner third row
+    if (
+      board[2][0].getValue() === activePlayerToken &&
+      board[2][1].getValue() === activePlayerToken &&
+      board[2][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner first column
+    if (
+      board[0][0].getValue() === activePlayerToken &&
+      board[0][1].getValue() === activePlayerToken &&
+      board[0][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner second column
+    if (
+      board[1][0].getValue() === activePlayerToken &&
+      board[1][1].getValue() === activePlayerToken &&
+      board[1][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner third column
+    if (
+      board[2][0].getValue() === activePlayerToken &&
+      board[2][1].getValue() === activePlayerToken &&
+      board[2][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner diagonaly-left-right
+    if (
+      board[0][0].getValue() === activePlayerToken &&
+      board[1][1].getValue() === activePlayerToken &&
+      board[2][2].getValue() === activePlayerToken
+    )
+      return true;
+    // Check winner diagonaly-right-left
+    if (
+      board[0][2].getValue() === activePlayerToken &&
+      board[1][1].getValue() === activePlayerToken &&
+      board[2][0].getValue() === activePlayerToken
+    )
+      return true;
+  };
+
+  return { DisplayBoard, placeToken, checkCellValue, checkWinner };
 };
 
 function Cell() {
@@ -39,6 +101,7 @@ function Cell() {
 const Player = () => {};
 
 const GameController = () => {
+  let moveCounter = 0;
   const board = Gameboard();
 
   const player = [
@@ -54,8 +117,6 @@ const GameController = () => {
 
   const getActivePlayer = () => activePlayer;
 
-  const checkWinner = () => {};
-
   const roundDisplay = () => {
     board.DisplayBoard();
     console.log(
@@ -66,9 +127,17 @@ const GameController = () => {
   };
 
   const playGame = (row, column) => {
+    if (board.checkCellValue(row, column))
+      return 'Cell is already occupied ! Chose another cell';
     board.placeToken(row, column, getActivePlayer().token);
+    if (board.checkWinner(getActivePlayer().token)) {
+      roundDisplay();
+      return `${getActivePlayer().name} has WON !`;
+    }
     switchPlayer();
     roundDisplay();
+    moveCounter++;
+    if (moveCounter == 9) return 'DRAW';
     return 'Next move!';
   };
 
