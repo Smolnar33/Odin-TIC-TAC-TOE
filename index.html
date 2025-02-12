@@ -8,8 +8,47 @@
     />
     <title>TIC TAC TOE</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <script src="script.js" defer></script>
+    <h1>Tic Tac Toe</h1>
+    <div id="play-board">
+      <div id="player-card">
+        <div class="player-one">
+          <label for="playerOne">Player One</label>
+          <input type="text" id="playerOne" />
+        </div>
+        <div class="player-two">
+          <label for="playerTwo">Player Two</label>
+          <input type="text" id="playerTwo" />
+        </div>
+      </div>
+      <div id="score-board" hidden>
+        <div id="score-playerOne-name">Player one:</div>
+        <div id="score-playerOne">0</div>
+        <div id="score-playerTwo-name">Player two:</div>
+        <div id="score-playerTwo">0</div>
+      </div>
+
+      <div class="game-container">
+        <div class="board">
+          <div class="cell" data-index="0"></div>
+          <div class="cell" data-index="1"></div>
+          <div class="cell" data-index="2"></div>
+          <div class="cell" data-index="3"></div>
+          <div class="cell" data-index="4"></div>
+          <div class="cell" data-index="5"></div>
+          <div class="cell" data-index="6"></div>
+          <div class="cell" data-index="7"></div>
+          <div class="cell" data-index="8"></div>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="startGame">Start Game</button>
+      <button id="resetGame">Reset Game</button>
+    </div>
+
+    <p id="status"></p>
   </body>
 </html>

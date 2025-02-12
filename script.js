@@ -14,7 +14,8 @@ const Gameboard = () => {
     const cellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
-    console.log(cellValues);
+    // console.log(cellValues);
+    return cellValues;
   };
 
   const placeToken = (row, column, token) => {
@@ -98,8 +99,6 @@ function Cell() {
   return { getValue, addToken };
 }
 
-const Player = () => {};
-
 const GameController = () => {
   let moveCounter = 0;
   const board = Gameboard();
@@ -128,7 +127,7 @@ const GameController = () => {
 
   const playGame = (row, column) => {
     if (board.checkCellValue(row, column))
-      return 'Cell is already occupied ! Chose another cell';
+      return alert('Cell is already occupied ! Chose another cell');
     board.placeToken(row, column, getActivePlayer().token);
     if (board.checkWinner(getActivePlayer().token)) {
       roundDisplay();
@@ -149,3 +148,53 @@ const GameController = () => {
 };
 
 const game = GameController();
+
+const array = [];
+
+const gameDisplay = () => {
+  board = Gameboard();
+  const playerCardTemp =
+    document.getElementById('play-board').innerHTML;
+  const renderBoard = () => {};
+
+  const enterPlayerNames = () => {
+    const playerOneName = document.getElementById('playerOne').value;
+    const playerTwoName = document.getElementById('playerTwo').value;
+    if (playerOneName) {
+      document.getElementById(
+        'score-playerOne-name'
+      ).innerText = `${playerOneName} :`;
+    }
+    if (playerTwoName) {
+      document.getElementById(
+        'score-playerTwo-name'
+      ).innerText = `${playerTwoName} :`;
+    }
+    document.getElementById('score-board').style.display = 'block';
+    document.getElementById('player-card').style.display = 'none';
+  };
+  const addEventListeners = () => {
+    document
+      .getElementById('startGame')
+      .addEventListener('click', () => {
+        enterPlayerNames();
+      });
+    document
+      .getElementById('resetGame')
+      .addEventListener('click', () => {});
+  };
+
+  const resetGame = () => {
+    document
+      .getElementById('resetGame')
+      .addEventListener('click', () => {
+        document.getElementById('play-board').innerHTML =
+          playerCardTemp;
+      });
+  };
+
+  addEventListeners();
+  resetGame();
+};
+
+gameDisplay();

@@ -1,0 +1,86 @@
+/* Basic page styling */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+/* Container for the game board */
+.game-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Tic Tac Toe board as a 3x3 grid */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+}
+
+/* Each cell styling */
+.cell {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cell:hover {
+  background-color: #e0e0e0;
+}
+
+/* Controls styling */
+.controls {
+  margin-top: 20px;
+}
+
+button {
+  font-size: 1em;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#startGame {
+  background-color: #4caf50;
+  color: white;
+}
+
+#resetGame {
+  background-color: #f44336;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Status message styling */
+#status {
+  font-size: 1.2em;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#player-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+}
