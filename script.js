@@ -8,15 +8,22 @@ const Gameboard = () => {
     for (let j = 0; j < columns; j++) {
       board[i].push(Cell());
     }
-  }
+  } 
 
   const DisplayBoard = () => {
     const cellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
-    // console.log(cellValues);
-    return cellValues;
+    document.querySelectorAll('.cell').forEach(cell => {
+      const index = Number(cell.dataset.index);
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      // Set the innerText of the cell to the value (e.g., 'X', 'O', or 0)
+      if(board[row][col].getValue())
+      cell.textContent = board[row][col].getValue();
+    });
   };
+  
 
   const placeToken = (row, column, token) => {
     board[row][column].addToken(token);
@@ -116,31 +123,21 @@ const GameController = () => {
 
   const getActivePlayer = () => activePlayer;
 
-  const roundDisplay = () => {
-    board.DisplayBoard();
-    console.log(
-      `${
-        getActivePlayer().name
-      }'s turn. Please select a row and a column to place your token`
-    );
-  };
-
   const playGame = (row, column) => {
     if (board.checkCellValue(row, column))
       return alert('Cell is already occupied ! Chose another cell');
     board.placeToken(row, column, getActivePlayer().token);
     if (board.checkWinner(getActivePlayer().token)) {
-      roundDisplay();
-      return `${getActivePlayer().name} has WON !`;
+      board.DisplayBoard();
+      return alert(`${getActivePlayer().name} has WON !`); 
     }
     switchPlayer();
-    roundDisplay();
+    board.DisplayBoard();
     moveCounter++;
-    if (moveCounter == 9) return 'DRAW';
-    return 'Next move!';
+    if (moveCounter == 9) return alert('DRAW'); 
   };
 
-  roundDisplay();
+  board.DisplayBoard();
 
   return {
     playGame,
@@ -155,7 +152,19 @@ const gameDisplay = () => {
   board = Gameboard();
   const playerCardTemp =
     document.getElementById('play-board').innerHTML;
-  const renderBoard = () => {};
+
+  const applyEventListenerToCells = () => {
+    const columns = 3; 
+
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.addEventListener('click', function() {
+        const index = Number(this.dataset.index);
+        const row = Math.floor(index / columns);
+        const col = index % columns;
+        game.playGame(row,col)
+      });
+    });           
+  };
 
   const enterPlayerNames = () => {
     const playerOneName = document.getElementById('playerOne').value;
@@ -173,15 +182,13 @@ const gameDisplay = () => {
     document.getElementById('score-board').style.display = 'block';
     document.getElementById('player-card').style.display = 'none';
   };
+
   const addEventListeners = () => {
     document
       .getElementById('startGame')
       .addEventListener('click', () => {
         enterPlayerNames();
       });
-    document
-      .getElementById('resetGame')
-      .addEventListener('click', () => {});
   };
 
   const resetGame = () => {
@@ -195,6 +202,7 @@ const gameDisplay = () => {
 
   addEventListeners();
   resetGame();
+  applyEventListenerToCells()
 };
 
 gameDisplay();
